@@ -14,14 +14,10 @@
 #define SINGLETON_FOR_CLASS_DECL_NAME(cls, name)	+ (cls *)shared##name
 #define SINGLETON_FOR_CLASS_DECL(cls)   SINGLETON_FOR_CLASS_DECL_NAME(cls, cls)
 
-#if NS_BLOCKS_AVAILABLE
-#define __macro_kit_initialize_singleton(var)    \
-    static dispatch_once_t once; \
-    dispatch_once(&once, ^{ \
-        _shared##name = [[super allocWithZone:NULL] init]; \
-    });
-#else
-#define __macro_kit_initialize_singleton(var)    \
+// Check for blocks availability at runtime
+#define ARE_BLOCKS_AVAILABLE() (NSClassFromString(@"NSBlockOperation") != nil)
+
+#define __macro_kit_initialize_singleton_synchronized(var)  \
     if (!var) { \
         @synchronized(self) { \
             if (!var) { \
@@ -29,6 +25,19 @@
             } \
         } \
     }
+
+#if NS_BLOCKS_AVAILABLE
+#define __macro_kit_initialize_singleton(var)    \
+    if (ARE_BLOCKS_AVAILABLE()) { \
+        static dispatch_once_t once; \
+        dispatch_once(&once, ^{ \
+            _shared##name = [[super allocWithZone:NULL] init]; \
+        }); \
+    } else { \
+        __macro_kit_initialize_singleton_synchronized(var); \
+    }
+#else
+#define __macro_kit_initialize_singleton(var) __macro_kit_initialize_singleton_synchronized(var)
 #endif
 
 #define SINGLETON_FOR_CLASS_NAME(cls, name) \
