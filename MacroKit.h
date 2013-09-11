@@ -66,6 +66,15 @@
 
 #define SINGLETON_FOR_CLASS(cls)    SINGLETON_FOR_CLASS_NAME(cls, cls)
 
+// Debugging
+#ifndef DEBUG_LOG
+#ifdef DEBUG
+#define DEBUG_LOG(...) NSLog(__VA_ARGS__)
+#else
+#define DEBUG_LOG(...)
+#endif
+#endif
+
 // iOS specific macros
 #if TARGET_OS_IPHONE
 
