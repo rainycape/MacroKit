@@ -10,7 +10,10 @@
 
 // Macros for both OS X and iOS
 
-// Declaring a singleton using GCD, if available, or synchronized(self) otherwise
+// Declare a singleton for the given class.
+// SINGLETON_FOR_CLASS_DECL() and SINGLETON_FOR_CLASS_DECL_NAME() should be
+// used in the header file for the singleton. Take a look at SINGLETON_FOR_CLASS()
+// and SINGLETON_FOR_CLASS_NAME() for the implementation.
 #define SINGLETON_FOR_CLASS_DECL_NAME(cls, name)	+ (cls *)shared##name
 #define SINGLETON_FOR_CLASS_DECL(cls)   SINGLETON_FOR_CLASS_DECL_NAME(cls, cls)
 
@@ -40,6 +43,9 @@
 #define __macro_kit_initialize_singleton(var) __macro_kit_initialize_singleton_synchronized(var)
 #endif
 
+// Implement a singleton using GCD, if available, or synchronized(self) otherwise.
+// SINGLETON_FOR_CLASS() and SINGLETON_FOR_CLASS_NAME() should be
+// used in the implementation (.m) file for the singleton.
 #define SINGLETON_FOR_CLASS_NAME(cls, name) \
     static cls *_shared##name; \
     - (oneway void)release { \
