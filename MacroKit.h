@@ -85,8 +85,8 @@
 #if TARGET_OS_IPHONE
 
 // Checking for device idiom
-#define IS_PHONE()  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-#define IS_PAD()    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define DEVICE_IS_PHONE()  (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define DEVICE_IS_PAD()    (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 // Checking for iOS version
 #define IOS_VERSION_EQ(v)   ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
