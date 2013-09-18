@@ -34,7 +34,7 @@
     if (ARE_BLOCKS_AVAILABLE()) { \
         static dispatch_once_t once; \
         dispatch_once(&once, ^{ \
-            _shared##name = [[super allocWithZone:NULL] init]; \
+            var = [[super allocWithZone:NULL] init]; \
         }); \
     } else { \
         __macro_kit_initialize_singleton_synchronized(var); \
